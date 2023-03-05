@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+<body>
+    
+    <div class="container">
+        <div class="music-player">
+            <nav>
+                <div class="circle">
+                    <span class="material-symbols-outlined">
+                        arrow_back_ios
+                    </span>
+                </div>
+                <div class="circle">
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+                </div>
+            </nav>
+            <img src="thumbnail.png" alt="" class="song-img">
+            <h1>Little Panda</h1>
+            <p>Nursery Rhymes & Kids Songs</p>
+
+            <audio  id="song">
+                <source src="Panda.mp3" type="audio/mpeg"> 
+            </audio>
+            <input type="range" value="0" id="progress">
+
+            <div class="controls">
+                <div>
+                    <span class="material-symbols-outlined">fast_rewind</span>
+                </div>
+                <div onclick="playPause()">
+                    <span class="material-symbols-outlined" id="ctrlIcon">play_arrow</span>
+                </div>
+                <div>
+                    <span class="material-symbols-outlined">fast_forward</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        let progress = document.getElementById("progress");
+        let song = document.getElementById("song");
+        let ctrlIcon = document.getElementById("ctrlIcon");
+
+        song.onloadedmetadata = function(){
+            progress.max = song.duration;
+            progress.value = song.currentTime;
+        }
+
+        function playPause(){
+            if(ctrlIcon.innerText === "pause"){
+                song.pause();
+                ctrlIcon.innerText = "play_arrow";
+            }
+            else{
+                song.play();
+                ctrlIcon.innerText = "pause";
+            }
+        }
+
+        if(song.play()){
+            setInterval(()=>{
+                progress.value = song.currentTime;
+            },500);
+        }
+
+        progress.onchange = function(){
+            song.play();
+            song.currentTime = progress.value;
+            ctrlIcon.innerText = "pause";
+        }
+
+    </script>
+
+</body>
+</html>
